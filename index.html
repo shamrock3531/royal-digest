@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Королевский дайджест</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Source+Sans+3:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#1E2D59; --bg-deep:#172344; --bg-line:#3A4A7C; --bg-line-soft:#2C3A69;
+  --on-bg:#EDEADF; --on-bg-2:#B6BFD8; --on-bg-3:#8794B8;
+  --gold:#D6B56C; --gold-dim:#B4934E;
+  --surface:#FCFBF4; --surface-2:#F3F1E7;
+  --ink:#232733; --ink-2:#5C6270; --ink-3:#8B909C;
+  --line:#E3E0D3; --line-soft:#ECEADF;
+  --accent:#8A6C2C; --accent-soft:#F1EADA; --accent-line:#D9C89C;
+  --navy:#2A3A5C; --navy-soft:#E7EBF3;
+  --bar:#41598A; --bar-2:#8A6C2C;
+  --chip-official:#F1EADA; --chip-official-ink:#7A5F24;
+  --chip-quality:#E7EBF3; --chip-quality-ink:#33456E;
+  --chip-glossy:#F0E6EE; --chip-glossy-ink:#7A4A6E;
+  --chip-tabloid:#ECECEA; --chip-tabloid-ink:#666B74;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--on-bg);font-family:"Source Sans 3",system-ui,sans-serif;font-size:16px;line-height:1.55}
+a{color:var(--gold);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px 64px}
+/* masthead */
+header.mast{padding:40px 0 20px;border-bottom:2px solid var(--gold)}
+.mast .rule{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--on-bg-3);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+h1{font-family:"Playfair Display",Georgia,serif;font-weight:700;font-size:clamp(30px,5.4vw,46px);margin:10px 0 6px;color:var(--on-bg);text-wrap:balance}
+.mast p.sub{margin:0 0 14px;color:var(--on-bg-2);max-width:62ch}
+.stats{display:flex;gap:24px;flex-wrap:wrap;font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--on-bg-3)}
+.stats b{display:block;font-size:20px;color:var(--gold);font-weight:500}
+/* section headings */
+h2{font-family:"Playfair Display",Georgia,serif;font-weight:600;font-size:24px;margin:44px 0 6px;color:var(--on-bg);text-wrap:balance}
+.h2sub{color:var(--on-bg-2);margin:0 0 18px;font-size:14.5px}
+/* stories */
+.story{background:var(--surface);color:var(--ink);border:1px solid var(--line);border-top:3px solid var(--gold-dim);padding:22px 24px;margin-bottom:16px}
+.story h3{font-family:"Playfair Display",Georgia,serif;font-size:19.5px;font-weight:600;margin:0 0 8px;text-wrap:balance}
+.story .kick{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+.story p{margin:0 0 10px;max-width:70ch;color:var(--ink)}
+.story p:last-child{margin-bottom:0}
+.story a{color:var(--accent)}
+.story .cmp{background:var(--surface-2);border-left:2px solid var(--accent-line);padding:10px 14px;font-size:14.5px;color:var(--ink-2)}
+/* filters */
+.filters{position:sticky;top:0;z-index:5;background:var(--bg);padding:14px 0 12px;border-bottom:1px solid var(--bg-line-soft)}
+.frow{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px}
+.frow:last-child{margin-bottom:0}
+.flabel{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--on-bg-3);min-width:78px}
+.chip{border:1px solid var(--bg-line);background:transparent;color:var(--on-bg-2);border-radius:999px;padding:4px 12px;font-size:13.5px;font-family:inherit;cursor:pointer}
+.chip:hover{border-color:var(--gold)}
+.chip.on{background:var(--gold);border-color:var(--gold);color:#1B2440}
+select,input[type=search]{border:1px solid var(--bg-line);background:var(--bg-deep);color:var(--on-bg);font-family:inherit;font-size:13.5px;padding:5px 10px;border-radius:6px}
+input[type=search]::placeholder{color:var(--on-bg-3)}
+input[type=search]{flex:1;min-width:160px}
+.chip:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--gold);outline-offset:1px}
+.count{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--on-bg-3);margin-left:auto}
+/* feed */
+.day{margin-top:26px}
+.day .dhead{display:flex;align-items:baseline;gap:12px;border-bottom:1px solid var(--bg-line-soft);padding-bottom:6px;margin-bottom:14px}
+.day .dhead .d{font-family:"Playfair Display",Georgia,serif;font-size:18px;font-weight:600;color:var(--on-bg)}
+.day .dhead .n{font-family:"JetBrains Mono",monospace;font-size:11.5px;color:var(--on-bg-3)}
+.card{background:var(--surface);color:var(--ink);border:1px solid var(--line);padding:16px 18px 14px;margin-bottom:12px;display:flex;gap:16px}
+.med{flex:0 0 52px;width:52px;height:52px;border-radius:50%;background:var(--bg);border:1.5px solid var(--gold);box-shadow:inset 0 0 0 3px var(--bg),inset 0 0 0 4px var(--gold-dim);color:var(--gold);display:flex;align-items:center;justify-content:center;font-family:"Playfair Display",Georgia,serif;font-weight:600;font-size:17px;letter-spacing:.02em;margin-top:3px;user-select:none}
+.cbody{flex:1;min-width:0}
+.card .top{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:6px}
+.src{font-family:"JetBrains Mono",monospace;font-size:11.5px;color:var(--ink-2)}
+.tier{font-size:11px;padding:2px 8px;border-radius:999px;font-weight:600;letter-spacing:.03em}
+.tier.official{background:var(--chip-official);color:var(--chip-official-ink)}
+.tier.quality{background:var(--chip-quality);color:var(--chip-quality-ink)}
+.tier.glossy{background:var(--chip-glossy);color:var(--chip-glossy-ink)}
+.tier.tabloid{background:var(--chip-tabloid);color:var(--chip-tabloid-ink)}
+.card h4{font-family:"Playfair Display",Georgia,serif;font-size:17.5px;font-weight:600;margin:0 0 6px;line-height:1.35;text-wrap:balance}
+.card .sum{margin:0 0 10px;color:var(--ink-2);font-size:15px;max-width:75ch}
+.card a{color:var(--accent)}
+.card .foot{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.tag{font-size:12px;color:var(--ink-3);background:var(--surface-2);border:1px solid var(--line-soft);border-radius:4px;padding:1px 7px}
+.tag.person{color:var(--navy);border-color:var(--navy-soft);background:var(--navy-soft)}
+.orig{margin-left:auto;font-size:13px;white-space:nowrap}
+.empty{color:var(--on-bg-3);text-align:center;padding:40px 0;font-style:italic;display:none}
+/* analytics */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:700px){.grid2{grid-template-columns:1fr}}
+@media(max-width:560px){.card{flex-direction:row}.med{flex-basis:44px;width:44px;height:44px;font-size:14px}}
+.panel{background:var(--surface);color:var(--ink);border:1px solid var(--line);padding:18px 20px}
+.panel h3{font-size:13px;font-family:"JetBrains Mono",monospace;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);margin:0 0 14px}
+.brow{display:grid;grid-template-columns:110px 1fr 34px;gap:10px;align-items:center;margin-bottom:8px;font-size:13.5px}
+.brow .bl{color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brow .bt{height:14px;background:var(--surface-2);border-radius:0 4px 4px 0;position:relative}
+.brow .bf{display:block;height:100%;background:var(--bar);border-radius:0 4px 4px 0;min-width:2px}
+.brow.alt .bf{background:var(--bar-2)}
+.brow .bv{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--ink-2);text-align:right;font-variant-numeric:tabular-nums}
+footer{margin-top:48px;border-top:1px solid var(--bg-line-soft);padding-top:16px;font-size:13px;color:var(--on-bg-3);max-width:70ch}
+@media (prefers-reduced-motion: no-preference){
+  .card{transition:border-color .15s}
+  .card:hover{border-color:var(--gold-dim)}
+}
+</style>
+</head>
+<body>
+
+
+<div class="wrap">
+<header class="mast">
+  <div class="rule"><span>Британская монархия · мониторинг прессы</span><span id="updated"></span></div>
+  <h1>Королевский дайджест</h1>
+  <p class="sub">Ежедневный обзор публикаций о британской королевской семье: официальные источники, мировые агентства и качественная пресса, светские издания и таблоиды. Обновляется каждое утро в 8:00 по Москве; архив накапливается для анализа.</p>
+  <div class="stats">
+    <span><b id="st-total">—</b>материалов в архиве</span>
+    <span><b id="st-sources">—</b>источников</span>
+    <span><b id="st-days">—</b>дней наблюдения</span>
+  </div>
+</header>
+
+<h2>Главные сюжеты</h2>
+<p class="h2sub">Аналитический разбор ключевых историй: контекст, значение, как подают разные издания.</p>
+<div id="stories"></div>
+
+<h2>Лента публикаций</h2>
+<p class="h2sub">Все материалы с фильтрами. Клик по ссылке «оригинал» открывает первоисточник на английском.</p>
+
+<div class="filters" id="filters">
+  <div class="frow"><span class="flabel">Персоны</span><span id="f-persons"></span></div>
+  <div class="frow"><span class="flabel">Темы</span><span id="f-topics"></span></div>
+  <div class="frow">
+    <span class="flabel">Источник</span>
+    <select id="f-source"><option value="">Все источники</option></select>
+    <select id="f-tier">
+      <option value="">Все типы</option>
+      <option value="official">Официальные</option>
+      <option value="quality">Пресса и агентства</option>
+      <option value="glossy">Светские издания</option>
+      <option value="tabloid">Таблоиды</option>
+    </select>
+    <input type="search" id="f-q" placeholder="Поиск по тексту…">
+    <span class="count" id="f-count"></span>
+  </div>
+</div>
+
+<div id="feed"></div>
+<p class="empty" id="empty">Ничего не найдено — попробуйте снять фильтры.</p>
+
+<h2>Аналитика архива</h2>
+<p class="h2sub">Считается по всему накопленному архиву и обновляется автоматически с каждым выпуском.</p>
+<div class="grid2">
+  <div class="panel"><h3>Упоминания персон</h3><div id="ch-persons"></div></div>
+  <div class="panel"><h3>Темы публикаций</h3><div id="ch-topics"></div></div>
+  <div class="panel"><h3>Активность источников</h3><div id="ch-sources"></div></div>
+  <div class="panel"><h3>Публикации по дням</h3><div id="ch-days"></div></div>
+</div>
+
+<footer>
+Дайджест собирается автоматически: заголовки и пересказы — на русском, ссылки ведут на оригинальные публикации. Тип источника помечен на каждой карточке: официальные (Букингемский дворец, royal.uk), пресса и агентства (BBC, Reuters, The Guardian, The Times, The Telegraph, Sky, ITV, AP, CNN, NBC, Washington Post, Al Jazeera и др.), светские издания (Hello!, People, Tatler, Vanity Fair), таблоиды (Daily Mail, The Sun, Mirror — даны для полноты картины, к их эксклюзивам стоит относиться осторожно).
+</footer>
+</div>
+
+<script>
+/* ==== DIGEST_META_START ====
+{"lastUpdate":"2026-09-01","schedule":"daily 05:00 UTC"}
+==== DIGEST_META_END ==== */
+
+/* ==== NEWS_DATA_START ==== */
+const NEWS = [
+{"date":"2026-08-31","title":"Евгения показала первые семейные фото дочери Аделаиды","source":"Hello!","tier":"glossy","url":"https://www.hellomagazine.com/royalty/920851/princess-eugenie-baby-daughter-adelaide-new-pictures/","persons":["Евгения"],"topics":["Семья и дети"],"sum":"Принцесса Евгения опубликовала новые снимки новорождённой дочери Аделаиды вместе с двумя сыновьями. Девочка родилась 4 августа — о рождении официально объявил Букингемский дворец. People отмечает, что публикация совпала с возвращением в Британию её матери, Сары Фергюсон."},
+{"date":"2026-08-31","title":"Граф Спенсер почтил память Дианы в 29-ю годовщину её гибели","source":"People","tier":"glossy","url":"https://people.com/charles-spencer-pays-tribute-sister-princess-diana-anniversary-12070171","persons":["Диана (память)"],"topics":["Памятные даты"],"sum":"Чарльз Спенсер, брат принцессы Дианы, назвал 31 августа своим «самым нелюбимым днём» и опубликовал трибьют к 29-й годовщине гибели сестры. Дату традиционно отмечают и британские, и мировые издания."},
+{"date":"2026-08-31","title":"Антигуа и Барбуда отменила присягу королю — за два месяца до его визита","source":"Daily Mail","tier":"tabloid","url":"https://www.dailymail.com/news/royals/article-16091929/Antigua-Barbuda-axes-oath-King-two-months-visit.html","persons":["Карл III"],"topics":["Содружество","Официальные визиты"],"sum":"Власти Антигуа и Барбуды исключили присягу монарху из официальных процедур — за два месяца до приезда Карла III на саммит Содружества (CHOGM). Шаг читается как очередной сигнал ослабления связей карибских государств с короной."},
+{"date":"2026-08-30","title":"Уильям и Кейт покинули Балморал: Джордж готовится к Итону","source":"Yahoo News UK","tier":"quality","url":"https://uk.news.yahoo.com/prince-william-kate-middleton-leave-181024635.html","persons":["Уильям","Кейт","Джордж"],"topics":["Семья и дети","Образование"],"sum":"Принц и принцесса Уэльские вернулись из Шотландии в Виндзор — в сентябре 12-летний Джордж начинает учёбу в Итоне, впервые уезжая из дома в пансион. Шарлотта и Луи остаются в школе Lambrook. Джордж, по словам источников, «всегда хотел пойти по стопам отца»."},
+{"date":"2026-08-30","title":"Royal Lodge сдадут в аренду: срок договора Эндрю истекает в октябре","source":"Daily Mail","tier":"tabloid","url":"https://www.dailymail.com/news/royals/article-16090113/Royal-Lodge-rented-Andrew-Mountbatten-Windsors-lease-tenant-400k.html","persons":["Эндрю"],"topics":["Скандалы и расследования"],"sum":"Бывшая резиденция Эндрю Маунтбеттен-Виндзора Royal Lodge будет выставлена в аренду, когда в октябре закончится его договор. Переезд — часть последствий скандала вокруг связей Эндрю с Джеффри Эпштейном, лишившего его титулов и резиденции."},
+{"date":"2026-08-30","title":"Анна осадила бегуна двумя словами во время отдыха в Шотландии","source":"Hello!","tier":"glossy","url":"https://www.hellomagazine.com/royalty/920719/princess-anne-down-to-earth-response-surprises-jogger/","persons":["Анна"],"topics":["Светская хроника"],"sum":"Принцесса Анна, известная прямотой, коротко ответила бегуну, прервавшему её частный отдых в Шотландии. Издания в очередной раз отмечают её репутацию самого «безцеремонного» и трудолюбивого члена семьи."},
+{"date":"2026-08-30","title":"Карл выехал на любимой машине Елизаветы II — тонкий жест памяти","source":"Hello!","tier":"glossy","url":"https://www.hellomagazine.com/royalty/920724/king-charles-subtle-tribute-queen-elizabeth-precious-car/","persons":["Карл III","Елизавета II (память)"],"topics":["Светская хроника","Памятные даты"],"sum":"Короля заметили за рулём машины, принадлежавшей покойной Елизавете II, — жест прочитали как дань памяти матери в преддверии годовщины её смерти 8 сентября."},
+{"date":"2026-08-29","title":"Сара Фергюсон в ближайшее время вернётся в Великобританию","source":"BBC","tier":"quality","url":"https://www.bbc.com/news/articles/ce8xn9ge6xeo","persons":["Сара Фергюсон"],"topics":["Скандалы и расследования"],"sum":"По данным BBC, герцогиня Йоркская, жившая за границей после скандала вокруг бывшего мужа, «вскоре» вернётся в Британию. Возвращение совпадает с окончанием аренды Royal Lodge и рождением внучки у Евгении."},
+{"date":"2026-08-28","title":"Умер король Норвегии Харальд V. Британская семья в трауре","source":"Hello!","tier":"glossy","url":"https://www.hellomagazine.com/royalty/920319/king-harald-health-live-updates/","persons":["Карл III","Уильям","Кейт"],"topics":["Европейские монархии"],"sum":"28 августа скончался король Норвегии Харальд V — дальний родственник Виндзоров и близкий друг короны. Уильям и Кейт выступили с заявлением соболезнования; Карл III, как ожидается, будет представлен на государственных похоронах в Осло. Европейские дворы объявили траур."},
+{"date":"2026-08-26","title":"Гарри и Меган вернулись в Британию после шести лет в США","source":"Al Jazeera","tier":"quality","url":"https://www.aljazeera.com/news/2026/8/26/prince-harry-and-meghan-markle-return-to-uk-after-royal-rift","persons":["Гарри","Меган"],"topics":["Сассексы"],"sum":"Герцоги Сассекские с детьми прилетели в Бирмингем 26 августа: семья проведёт «продолжительный период» в Котсуолдсе, сохранив дом в Калифорнии. Арчи (7) и Лилибет (5) зачислены в частную школу. По данным СМИ, Карла III заранее о переезде не уведомили; вопрос охраны семьи остаётся нерешённым."},
+{"date":"2026-08-26","title":"Объявлен карибский тур Карла и Камиллы: Багамы, Гайана, Антигуа","source":"US News / AP","tier":"quality","url":"https://www.usnews.com/news/world/articles/2026-08-26/king-charles-and-queen-camilla-to-carry-out-tour-of-caribbean-nations","persons":["Карл III","Камилла"],"topics":["Официальные визиты","Содружество"],"sum":"Дворец анонсировал восьмидневный тур 27 октября — 4 ноября: первый визит Карла III на Багамы в статусе монарха, поездка в Гайану к 60-летию дипотношений и участие в саммите глав правительств Содружества (CHOGM) на Антигуа и Барбуде."},
+{"date":"2026-08-27","title":"Ямайка встречает новость о туре петицией о репарациях","source":"News Americas","tier":"quality","url":"https://www.newsamericasnow.com/king-charles-caribbean-tour-reparations/","persons":["Карл III"],"topics":["Содружество"],"sum":"На фоне анонса карибского тура в Ямайке активисты подали петицию с требованием репараций за колониальное прошлое и работорговлю. Тема репараций обещает сопровождать всю осеннюю поездку королевской четы по региону."},
+{"date":"2026-08-20","title":"Камилла впервые рассказала, как тяжело было скрывать диагноз короля","source":"CNN","tier":"quality","url":"https://www.cnn.com/2026/08/19/uk/queen-camilla-king-cancer-scli-intl","persons":["Камилла","Карл III"],"topics":["Здоровье"],"sum":"В видео к 30-летию онкологического фонда Maggie's, президентом которого она является, королева призналась, что до официального объявления о раке Карла III «никто не мог ничего сказать, и это было тяжело»: «Мне хотелось выговориться, но было нельзя». Король продолжает лечение; с декабря 2025-го его объём сокращён благодаря ранней диагностике."},
+{"date":"2026-08-19","title":"Washington Post: Сассексы возвращаются в Британию","source":"Washington Post","tier":"quality","url":"https://www.washingtonpost.com/world/2026/08/19/prince-harry-meghan-markle-will-reportedly-return-uk-after-six-years-us/","persons":["Гарри","Меган"],"topics":["Сассексы"],"sum":"За неделю до прилёта Washington Post первой из крупных газет сообщила о планах Гарри и Меган вернуться в Соединённое Королевство после шести лет в Калифорнии — на фоне попыток Гарри примириться с болеющим отцом."},
+{"date":"2026-08-18","title":"Королева обсудила работу фонда Maggie's с его главой Лорой Ли","source":"Royal.uk","tier":"official","url":"https://www.royal.uk/news","persons":["Камилла"],"topics":["Здоровье","Официальные визиты"],"sum":"Официальный сайт монархии опубликовал беседу Камиллы с дамой Лорой Ли, директором сети центров онкологической поддержки Maggie's, — к 30-летию фонда. Разговор предварял выход видео, где королева впервые говорит о диагнозе мужа."},
+{"date":"2026-08-11","title":"Послание короля в связи с землетрясением в Колумбии","source":"Royal.uk","tier":"official","url":"https://www.royal.uk/news","persons":["Карл III"],"topics":["Официальные визиты"],"sum":"Карл III выразил соболезнования народу Колумбии после разрушительного землетрясения — официальное послание опубликовано дворцом."},
+{"date":"2026-08-04","title":"Дворец объявил о рождении дочери у Евгении и Джека Бруксбэнка","source":"Royal.uk","tier":"official","url":"https://www.royal.uk/news-and-activity/2026-08-04/announcement-of-the-birth-of-princess-eugenie-and-mr-brooksbanks-0","persons":["Евгения"],"topics":["Семья и дети"],"sum":"Букингемский дворец официально объявил о рождении третьего ребёнка — первой дочери — у принцессы Евгении и Джека Бруксбэнка. Девочку назвали Аделаидой."},
+{"date":"2026-08-02","title":"Уэльские привели детей на Игры Содружества в Глазго","source":"ABC News","tier":"quality","url":"https://abcnews.com/GMA/Culture/prince-william-kate-middleton-bring-children-2026-commonwealth/story?id=135287631","persons":["Уильям","Кейт","Джордж","Шарлотта","Луи"],"topics":["Семья и дети","Содружество"],"sum":"Уильям и Кейт с Джорджем, Шарлоттой и Луи посетили Игры Содружества в Глазго — один из редких полных семейных выходов. Король направил послание к закрытию Игр. Пресса отметила непринуждённость детей на трибунах."}
+];
+/* ==== NEWS_DATA_END ==== */
+
+/* ==== STORIES_DATA_START ==== */
+const STORIES = [
+{"kick":"Сюжет № 1 · Сассексы","title":"Возвращение Гарри и Меган: шесть лет спустя — снова дома, но не во дворце","body":["26 августа Гарри, Меган, Арчи и Лилибет прилетели в Бирмингем и обосновались в Котсуолдсе — впервые с 2020 года семья живёт в Британии, пусть и «частными лицами» с сохранением дома в Калифорнии. Дети зачислены в местную частную школу. Ключевая деталь, которую подчёркивают почти все издания: Карла III о переезде заранее не уведомили, а вопрос полицейской охраны — после проигранного Гарри суда — так и не решён.","Значение: это самый серьёзный шанс на примирение с 2020 года. Гарри в последние месяцы искал контакта с болеющим отцом, и физическое присутствие в стране снимает главный барьер. При этом братья, по данным прессы, по-прежнему не общаются — источники называют Кейт возможным «мостом» между ними."],"cmp":"Как подают: Washington Post сообщила о планах ещё 19 августа со ссылкой на источники; Al Jazeera и мировые агентства дают сухую фактуру с акцентом на нерешённую охрану; таблоиды раскручивают линию «королю не сказали»; светские издания — быт: школа детей, дом в Котсуолдсе."},
+{"kick":"Сюжет № 2 · Содружество","title":"Карибский тур на фоне трещин: присяга отменена, репарации — на повестке","body":["В один день с прилётом Сассексов дворец анонсировал главную осеннюю поездку: 27 октября — 4 ноября Карл и Камилла посетят Багамы, Гайану и Антигуа и Барбуду, где впервые пройдёт саммит глав правительств Содружества (CHOGM). Для короля это первый визит на Багамы в статусе монарха.","Но приём готовится прохладный: Антигуа и Барбуда за два месяца до визита исключила присягу монарху из официальных процедур, а в Ямайке подана петиция о репарациях за колониальное прошлое. Тур обещает стать испытанием «мягкой силы» короны в регионе, где республиканские настроения только растут — и всё это на фоне продолжающегося лечения короля."],"cmp":"Как подают: британский официоз — «укрепление связей» и юбилей дипотношений с Гайаной; карибская пресса (Jamaica Observer, News Americas) — репарации и суверенитет; Daily Mail — «пощёчина королю» с отменой присяги."},
+{"kick":"Сюжет № 3 · Семья","title":"Тихая осень перемен: Джордж уезжает в Итон, Камилла говорит о диагнозе","body":["Сентябрь открывает новый этап для Уэльских: 12-летний Джордж — будущий король — впервые уезжает из дома в Итон, вслед за отцом и дядей. Уильям и Кейт ради этого досрочно вернулись из Балморала; решение о школе, как отмечала пресса, семья до последнего не анонсировала, оберегая сына от «внимания к каждому шагу».","Параллельно Камилла — впервые за два с половиной года — публично говорила о самом тяжёлом: в видео к 30-летию фонда Maggie's она призналась, как трудно было молчать о раке мужа до официального объявления в феврале 2024-го. Читается это как продолжение курса на «управляемую открытость» в теме здоровья короля: лечение продолжается, но в сокращённом объёме, и дворец постепенно приучает публику к спокойному тону разговора об этом.","Фоном — траур: 28 августа умер король Норвегии Харальд V, друг и родственник Виндзоров. Похороны в Осло соберут монархов Европы, и состав британской делегации станет отдельным сигналом."],"cmp":"Как подают: качественная пресса связывает Итон с темой преемственности поколений; светские издания — с «человеческой» стороной (первый пансион, переживания Кейт); признание Камиллы CNN и NBC вынесли в мировые топы как редкий момент откровенности дворца."}
+];
+/* ==== STORIES_DATA_END ==== */
+
+const TIER_RU = {official:"Официальный", quality:"Пресса", glossy:"Светское", tabloid:"Таблоид"};
+const MONTHS = ["января","февраля","марта","апреля","мая","июня","июля","августа","сентября","октября","ноября","декабря"];
+const fmtDate = iso => { const [y,m,d]=iso.split("-").map(Number); return `${d} ${MONTHS[m-1]} ${y}`; };
+const esc = s => s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\"/g,"&quot;");
+
+const state = {person:null, topic:null, source:"", tier:"", q:""};
+
+/* stories */
+document.getElementById("stories").innerHTML = STORIES.map(s =>
+  `<article class="story"><div class="kick">${esc(s.kick)}</div><h3>${esc(s.title)}</h3>` +
+  s.body.map(p=>`<p>${esc(p)}</p>`).join("") +
+  (s.cmp?`<p class="cmp">${esc(s.cmp)}</p>`:"") + `</article>`).join("");
+
+/* filters */
+const allPersons = [...new Set(NEWS.flatMap(n=>n.persons))].sort((a,b)=>a.localeCompare(b,"ru"));
+const allTopics  = [...new Set(NEWS.flatMap(n=>n.topics))].sort((a,b)=>a.localeCompare(b,"ru"));
+const allSources = [...new Set(NEWS.map(n=>n.source))].sort();
+
+function chipRow(el, items, key){
+  el.innerHTML = items.map(v=>`<button class="chip" data-v="${esc(v)}">${esc(v)}</button>`).join(" ");
+  el.addEventListener("click", e=>{
+    const b = e.target.closest(".chip"); if(!b) return;
+    state[key] = state[key]===b.dataset.v ? null : b.dataset.v;
+    el.querySelectorAll(".chip").forEach(c=>c.classList.toggle("on", c.dataset.v===state[key]));
+    render();
+  });
+}
+chipRow(document.getElementById("f-persons"), allPersons, "person");
+chipRow(document.getElementById("f-topics"), allTopics, "topic");
+
+const selSrc = document.getElementById("f-source");
+selSrc.innerHTML += allSources.map(s=>`<option>${esc(s)}</option>`).join("");
+selSrc.addEventListener("change", ()=>{state.source=selSrc.value; render();});
+const selTier = document.getElementById("f-tier");
+selTier.addEventListener("change", ()=>{state.tier=selTier.value; render();});
+const qIn = document.getElementById("f-q");
+qIn.addEventListener("input", ()=>{state.q=qIn.value.trim().toLowerCase(); render();});
+
+function pass(n){
+  if(state.person && !n.persons.includes(state.person)) return false;
+  if(state.topic && !n.topics.includes(state.topic)) return false;
+  if(state.source && n.source!==state.source) return false;
+  if(state.tier && n.tier!==state.tier) return false;
+  if(state.q && !(n.title+" "+n.sum).toLowerCase().includes(state.q)) return false;
+  return true;
+}
+
+function render(){
+  const items = NEWS.filter(pass).sort((a,b)=>b.date.localeCompare(a.date));
+  const byDay = {};
+  items.forEach(n=>{(byDay[n.date] ||= []).push(n);});
+  document.getElementById("feed").innerHTML = Object.keys(byDay).sort().reverse().map(d=>
+    `<section class="day"><div class="dhead"><span class="d">${fmtDate(d)}</span><span class="n">${byDay[d].length} материал${plural(byDay[d].length)}</span></div>` +
+    byDay[d].map(card).join("") + `</section>`).join("");
+  document.getElementById("empty").style.display = items.length ? "none":"block";
+  document.getElementById("f-count").textContent = `${items.length} из ${NEWS.length}`;
+}
+const plural = n => { const m=n%10, h=n%100; if(m===1&&h!==11) return ""; if(m>=2&&m<=4&&(h<10||h>=20)) return "а"; return "ов"; };
+
+const CYPHER = {"Карл III":"CR","Камилла":"QC","Уильям":"W","Кейт":"C","Джордж":"G","Шарлотта":"Ch","Луи":"L","Гарри":"H","Меган":"M","Эндрю":"AM","Сара Фергюсон":"SF","Евгения":"E","Беатрис":"B","Анна":"A","Эдвард":"Ed","Диана (память)":"D","Елизавета II (память)":"ER"};
+function medallion(n){
+  const p = n.persons[0] || "";
+  const m = p ? (CYPHER[p] || p[0]) : "✦";
+  const st = m.length > 2 ? ' style="font-size:13px"' : "";
+  return `<div class="med"${st} title="${esc(p)}" aria-hidden="true">${esc(m)}</div>`;
+}
+function card(n){
+  return `<article class="card">
+    ${medallion(n)}
+    <div class="cbody">
+    <div class="top"><span class="src">${esc(n.source)}</span><span class="tier ${n.tier}">${TIER_RU[n.tier]}</span></div>
+    <h4>${esc(n.title)}</h4>
+    <p class="sum">${esc(n.sum)}</p>
+    <div class="foot">${n.persons.map(p=>`<span class="tag person">${esc(p)}</span>`).join("")}${n.topics.map(t=>`<span class="tag">${esc(t)}</span>`).join("")}
+    <a class="orig" href="${esc(n.url)}" target="_blank" rel="noopener">оригинал →</a></div>
+    </div>
+  </article>`;
+}
+
+/* analytics */
+function tally(fn){
+  const m = {};
+  NEWS.forEach(n=>fn(n).forEach(k=>m[k]=(m[k]||0)+1));
+  return Object.entries(m).sort((a,b)=>b[1]-a[1]);
+}
+function bars(el, data, alt, limit){
+  const top = data.slice(0, limit||8);
+  const max = Math.max(...top.map(d=>d[1]));
+  el.innerHTML = top.map(([k,v])=>
+    `<div class="brow${alt?" alt":""}"><span class="bl" title="${esc(k)}">${esc(k)}</span><span class="bt"><span class="bf" style="width:${Math.round(v/max*100)}%"></span></span><span class="bv">${v}</span></div>`).join("");
+}
+bars(document.getElementById("ch-persons"), tally(n=>n.persons), false);
+bars(document.getElementById("ch-topics"),  tally(n=>n.topics), true);
+bars(document.getElementById("ch-sources"), tally(n=>[n.source]), false);
+const dayCounts = (()=>{const m={};NEWS.forEach(n=>m[n.date]=(m[n.date]||0)+1);
+  return Object.entries(m).sort((a,b)=>b[0].localeCompare(a[0])).map(([d,v])=>[fmtDate(d).replace(/ \d{4}$/,""),v]);})();
+bars(document.getElementById("ch-days"), dayCounts, true, 10);
+
+/* header stats */
+document.getElementById("st-total").textContent = NEWS.length;
+document.getElementById("st-sources").textContent = allSources.length;
+document.getElementById("st-days").textContent = new Set(NEWS.map(n=>n.date)).size;
+document.getElementById("updated").textContent = "выпуск от 1 сентября 2026";
+
+render();
+</script>
+
+</body>
+</html>
