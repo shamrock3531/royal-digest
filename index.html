@@ -3,7 +3,6 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-
 <title>Королевский дайджест</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Source+Sans+3:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
@@ -201,7 +200,7 @@ const STORIES = [
 const TIER_RU = {official:"Официальный", quality:"Пресса", glossy:"Светское", tabloid:"Таблоид"};
 const MONTHS = ["января","февраля","марта","апреля","мая","июня","июля","августа","сентября","октября","ноября","декабря"];
 const fmtDate = iso => { const [y,m,d]=iso.split("-").map(Number); return `${d} ${MONTHS[m-1]} ${y}`; };
-const esc = s => s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+const esc = s => s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\"/g,"&quot;");
 
 const state = {person:null, topic:null, source:"", tier:"", q:""};
 
@@ -304,6 +303,5 @@ document.getElementById("updated").textContent = "выпуск от 2 сентя
 
 render();
 </script>
-
 </body>
 </html>
