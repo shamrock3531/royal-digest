@@ -322,5 +322,6 @@ document.getElementById("updated").textContent = "выпуск от 8 сентя
 
 render();
 </script>
+<script>/* auto-refresh-digest */(function(){var q=function(){var o=[].slice.call(document.scripts).map(function(s){return s.textContent}).join(''),m=o.match(/"lastUpdate":"([0-9-]+)"/);if(!m)return;var my=m[1];fetch(location.pathname+'?r='+Date.now(),{cache:'no-store'}).then(function(r){return r.text()}).then(function(t){var f=t.match(/"lastUpdate":"([0-9-]+)"/);if(f&&f[1]!==my)location.replace(location.pathname+'?u='+Date.now());}).catch(function(){});};document.addEventListener('visibilitychange',function(){if(document.visibilityState==='visible')q()});window.addEventListener('pageshow',function(){q()});setInterval(q,1800000);setTimeout(q,4000);})();</script>
 </body>
 </html>
