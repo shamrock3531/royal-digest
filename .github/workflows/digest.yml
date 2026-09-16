@@ -1,0 +1,41 @@
+name: Королевский дайджест
+
+on:
+  schedule:
+    - cron: '20 6 * * *'   # 09:20 МСК — страховка после утренних попыток
+  workflow_dispatch: {}     # можно запускать вручную
+
+permissions:
+  contents: write
+  models: read
+
+concurrency:
+  group: royal-digest
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Собрать выпуск
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/build_digest.mjs
+
+      - name: Опубликовать, если появился новый выпуск
+        run: |
+          if [ -n "$(git status --porcelain index.html)" ]; then
+            git config user.name  "royal-digest-bot"
+            git config user.email "actions@users.noreply.github.com"
+            git add index.html
+            git commit -m "Королевский дайджест — авто-выпуск (GitHub Actions)"
+            git push
+          else
+            echo "изменений нет — страница уже актуальна"
+          fi
