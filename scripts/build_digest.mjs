@@ -39,7 +39,7 @@ const knownUrls = new Set([...newsBlock.matchAll(/"url":\s*"([^"]+)"/g)].map(m =
 // 3. Кандидаты из RSS-лент.
 async function getText(u) {
   try {
-    const r = await fetch(u, { headers: { 'User-Agent': 'royal-digest-bot' } });
+    const r = await fetch(u, { headers: { 'User-Agent': 'royal-digest-bot' }, signal: AbortSignal.timeout(20000) });
     return r.ok ? await r.text() : '';
   } catch (e) { console.log('feed err', u, e.message); return ''; }
 }
@@ -95,7 +95,7 @@ async function callModel() {
     generationConfig: { temperature: 0.4, responseMimeType: 'application/json' }
   };
   // Несколько имён моделей на случай переименований в бесплатном тарифе Google.
-  const models = ['gemini-flash-latest', 'gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash'];
+  const models = ['gemini-3.5-flash', 'gemini-2.5-flash', 'gemini-flash-latest', 'gemini-3.8-flash'];
   for (const m of models) {
     try {
       const r = await fetch(
@@ -103,7 +103,8 @@ async function callModel() {
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'x-goog-api-key': apiKey },
-          body: JSON.stringify(body)
+          body: JSON.stringify(body),
+          signal: AbortSignal.timeout(30000)
         }
       );
       if (!r.ok) { console.log('model http', m, r.status, (await r.text()).slice(0, 300)); continue; }
