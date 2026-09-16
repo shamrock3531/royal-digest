@@ -1,7 +1,7 @@
 // Резервный сборщик «Королевского дайджеста» для GitHub Actions.
 // Работает как страховка: если index.html уже содержит сегодняшний выпуск —
 // ничего не делает. Иначе собирает свежие новости о британской монархии,
-// переводит и пересказывает их на русский через GitHub Models и публикует
+// переводит и пересказывает их на русский через внешний ИИ (Gemini) и публикует
 // в существующем формате страницы (массивы NEWS и STORIES).
 //
 // Правки только в блоках данных и в дате выпуска — вёрстка, стили, скрипты
@@ -73,8 +73,8 @@ cands = cands.filter(c => {
 
 if (cands.length === 0) { console.log('no fresh candidates — no-op'); process.exit(0); }
 
-// 4. GitHub Models: перевод + пересказ в нашу JSON-схему.
-const token = process.env.GITHUB_TOKEN;
+// 4. Gemini: перевод + пересказ в нашу JSON-схему.
+const apiKey = process.env.GEMINI_API_KEY;
 const sys = `Ты — редактор русскоязычного дайджеста о британской королевской семье.
 На вход даны заголовки и ссылки англоязычных новостей. Верни СТРОГО JSON без markdown-обёрток:
 {"news":[...],"stories":[...]}.
@@ -88,26 +88,29 @@ stories — 1–2 объекта вида {"kick":"Сюжет · <коротка
 const userMsg = cands.map(c => `- ${c.title} | ${c.link}`).join('\n');
 
 async function callModel() {
+  if (!apiKey) { console.log('нет GEMINI_API_KEY — no-op'); return ''; }
   const body = {
-    model: 'openai/gpt-4o',
-    temperature: 0.4,
-    messages: [{ role: 'system', content: sys }, { role: 'user', content: userMsg }]
+    system_instruction: { parts: [{ text: sys }] },
+    contents: [{ role: 'user', parts: [{ text: userMsg }] }],
+    generationConfig: { temperature: 0.4, responseMimeType: 'application/json' }
   };
-  const endpoints = [
-    'https://models.github.ai/inference/chat/completions',
-    'https://models.inference.ai.azure.com/chat/completions'
-  ];
-  for (const ep of endpoints) {
+  // Несколько имён моделей на случай переименований в бесплатном тарифе Google.
+  const models = ['gemini-flash-latest', 'gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash'];
+  for (const m of models) {
     try {
-      const r = await fetch(ep, {
-        method: 'POST',
-        headers: { Authorization: 'Bearer ' + token, 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-      });
-      if (!r.ok) { console.log('model http', ep, r.status, (await r.text()).slice(0, 300)); continue; }
+      const r = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'x-goog-api-key': apiKey },
+          body: JSON.stringify(body)
+        }
+      );
+      if (!r.ok) { console.log('model http', m, r.status, (await r.text()).slice(0, 300)); continue; }
       const j = await r.json();
-      return j.choices?.[0]?.message?.content || '';
-    } catch (e) { console.log('model err', ep, e.message); }
+      const txt = (j.candidates?.[0]?.content?.parts || []).map(p => p.text || '').join('');
+      if (txt) return txt;
+    } catch (e) { console.log('model err', m, e.message); }
   }
   return '';
 }
