@@ -7,7 +7,6 @@ on:
 
 permissions:
   contents: write
-  models: read
 
 concurrency:
   group: royal-digest
@@ -25,7 +24,7 @@ jobs:
 
       - name: Собрать выпуск
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: node scripts/build_digest.mjs
 
       - name: Опубликовать, если появился новый выпуск
