@@ -95,7 +95,9 @@ async function callModel() {
     generationConfig: { temperature: 0.4, responseMimeType: 'application/json' }
   };
   // Несколько имён моделей на случай переименований в бесплатном тарифе Google.
-  const models = ['gemini-3.5-flash', 'gemini-2.5-flash', 'gemini-flash-latest', 'gemini-3.8-flash'];
+  const models = ['gemini-2.5-flash-lite', 'gemini-flash-lite-latest', 'gemini-2.5-flash', 'gemini-3.5-flash', 'gemini-flash-latest'];
+  const sleep = ms => new Promise(res => setTimeout(res, ms));
+  for (let attempt = 0; attempt < 3; attempt++) {
   for (const m of models) {
     try {
       const r = await fetch(
@@ -104,7 +106,7 @@ async function callModel() {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'x-goog-api-key': apiKey },
           body: JSON.stringify(body),
-          signal: AbortSignal.timeout(30000)
+          signal: AbortSignal.timeout(60000)
         }
       );
       if (!r.ok) { console.log('model http', m, r.status, (await r.text()).slice(0, 300)); continue; }
@@ -112,6 +114,8 @@ async function callModel() {
       const txt = (j.candidates?.[0]?.content?.parts || []).map(p => p.text || '').join('');
       if (txt) return txt;
     } catch (e) { console.log('model err', m, e.message); }
+  }
+  if (attempt < 2) { console.log('all Gemini models busy, retry in 40s'); await sleep(40000); }
   }
   return '';
 }
